@@ -17,9 +17,10 @@ features_file = './features_extraction/features/DOG_EMO_multi.pkl'
 val_id = ['maltese_val']
 test_id = ['maltese_test']
 
-num_epochs  = 200
-batch_size  = 16
-lr          = 0.00001
+num_epochs  = 1
+batch_size  = 4
+#lr          = 0.00001
+ㅣㄱ = 0.001
 random_seed = 111
 save_label = str_time#'0930_01'#'alexnet_pm_0704'
  

@@ -6,7 +6,7 @@ import pickle
 from features_util import extract_features
 from collections import Counter
 import pandas as pd
-from database import SER_DATABASES , DOG_EMO_DATABASES
+from database import DOG_EMO_DATABASES
 import random
 
 import warnings
@@ -51,6 +51,8 @@ def main(args):
     print(f'\t{"Dataset dir.":>20}: {dataset_dir}')
     print(f'\t{"Features file":>20}: {out_filename}')
     print(f'\t{"Add noise version":>20}: {mixnoise}')
+
+    
     print(f"\nPARAMETERS:")
     for key in params:
         print(f'\t{key:>20}: {params[key]}')
@@ -65,21 +67,6 @@ def main(args):
                                         include_scripted = False)
         
         
-
-    elif dataset == 'IEMOCAP':
-        # This is the 4-class, improvised data set
-        #emot_map = {'ang':0,'sad':1,'hap':2,'neu':3}
-        #include_scripted = False
-        
-        # Some publication works combined 'happy' and 'excited' into one 'happy' class,
-        #   enable below for the 5531 dataset
-        emot_map = {'ang':0,'sad':1,'hap':2, 'exc':2, 'neu':3}
-        include_scripted = True 
-        #Initialize database
-        database = SER_DATABASES[dataset](dataset_dir, emot_map=emot_map, 
-                                        include_scripted = include_scripted)
-    
-
     #Get file paths and label in database
     speaker_files = database.get_files()
 
@@ -120,6 +107,9 @@ def main(args):
     class_dist_f = pd.DataFrame(df)
     class_dist_f = class_dist_f.to_string(index=False) 
     print(class_dist_f)
+    
+    with open(out_filename.split('.')[0] + '_info.txt' , 'w') as file:
+        file.write(class_dist_f)
      
     print('\n')
     print('*'*50)

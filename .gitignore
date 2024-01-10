@@ -1,0 +1,5 @@
+# Ignore maltese and ost directories within data
+/data/maltese/
+/data/ost/
+
+/features_extraction/features/

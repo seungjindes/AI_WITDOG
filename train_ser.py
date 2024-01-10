@@ -489,7 +489,7 @@ def train(dataset, params, save_label='default'):
         with torch.no_grad():
             val_result = test('VAL', params,
                 model, criterion_ce, criterion_mml, val_dataset, 
-                batch_size=64, 
+                batch_size=batch_size, 
                 device=device)
 
             val_loss = val_result[0]
@@ -522,13 +522,15 @@ def train(dataset, params, save_label='default'):
             break    
         #break
         
+    return 
+        
     # Test on best model
     with torch.no_grad():
         model.load_state_dict(torch.load(save_path))
 
         test_result, confusion_matrix = test('TEST', params,
             model, criterion_ce, criterion_mml, test_dataset, 
-            batch_size=64, #params['batch_size'],
+            batch_size=batch_size, #,
             device=device, return_matrix=True)
 
         print("*" * 40)
@@ -544,6 +546,8 @@ def train(dataset, params, save_label='default'):
             acc_format2.format(test_result[1]),
             acc_format2.format(test_result[2]),
             confusion_matrix[0])
+    
+    
 
 
 # seeding function for reproducibility
