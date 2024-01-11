@@ -12,17 +12,18 @@ str_time = f'{str(localtime.tm_year)}-{str(localtime.tm_mon)}-{str(localtime.tm_
 
 #------------PARAMETERS---------------#
 
-features_file = './features_extraction/features/DOG_EMO_multi.pkl'
+features_file = './features_extraction/features/DOG_EMO_multi_maltese.pkl'
  #leave-one-session-out
-val_id = ['maltese_val']
-test_id = ['maltese_test']
+val_id = ['valid']
+test_id = ['test']
 
-num_epochs  = 200
-batch_size  = 16
-lr          = 0.00001
+num_epochs  = '1'
+batch_size  = '4'
+#lr          = 0.00001
+lr = '0.001'
 random_seed = 111
 save_label = str_time#'0930_01'#'alexnet_pm_0704'
- 
+
 
 #Start Cross Validation
 all_stat = []
@@ -49,25 +50,28 @@ for repeat in range(repeat_kfold):
                                   '--pretrained'
                                   ]
 
-    
+
         stat = train_ser.main(parse_arguments(sys.argv[1:]))   
         all_stat.append(stat)       
-        os.remove(save_label+'.pth')
+        os.remove('./result/'+save_label+'.pth')
+        
+        
+    
     
     # with open('allstat_iemocap_'+save_label+'_'+str(repeat)+'.pkl', "wb") as fout:
     #     pickle.dump(all_stat, fout)
 
-n_total = repeat_kfold*len(val_id)
-total_best_epoch, total_epoch, total_loss, total_wa, total_ua = 0, 0, 0, 0, 0
+# n_total = repeat_kfold*len(val_id)
+# total_best_epoch, total_epoch, total_loss, total_wa, total_ua = 0, 0, 0, 0, 0
 
-for i in range(n_total):
-    print(i, ": ", all_stat[i][0], all_stat[i][1], all_stat[i][8], all_stat[i][9], all_stat[i][10]) 
-    total_best_epoch += all_stat[i][0]
-    total_epoch += all_stat[i][1]
-    total_loss += float(all_stat[i][8])
-    total_wa += float(all_stat[i][9])
-    total_ua += float(all_stat[i][10])
+# for i in range(n_total):
+#     print(i, ": ", all_stat[i][0], all_stat[i][1], all_stat[i][8], all_stat[i][9], all_stat[i][10]) 
+#     total_best_epoch += all_stat[i][0]
+#     total_epoch += all_stat[i][1]
+#     total_loss += float(all_stat[i][8])
+#     total_wa += float(all_stat[i][9])
+#     total_ua += float(all_stat[i][10])
 
-print("AVERAGE:", total_best_epoch/n_total, total_epoch/n_total, total_loss/n_total, total_wa/n_total, total_ua/n_total )
+# print("AVERAGE:", total_best_epoch/n_total, total_epoch/n_total, total_loss/n_total, total_wa/n_total, total_ua/n_total )
 
-print(all_stat)
+# print(all_stat)

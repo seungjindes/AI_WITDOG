@@ -19,7 +19,7 @@ def extract_features(speaker_files, features, params , coc_params):
     speaker_features = defaultdict()
     # data_mfcc = list()
     for speaker_id in tqdm(speaker_files.keys()):
-        print('speaker_id ' , speaker_id)
+        #print('speaker_id ' , speaker_id)
         data_tot, labels_tot, labels_segs_tot, segs, data_mfcc, data_audio,data_coc = list(), list(), list(), list(), list(), list(),list()
         for wav_path, emotion in speaker_files[speaker_id]:
             
@@ -68,16 +68,16 @@ def extract_features(speaker_files, features, params , coc_params):
         labels_tot = np.asarray(labels_tot, dtype=np.int8)
         labels_segs_tot = np.asarray(labels_segs_tot, dtype=np.int8)
         segs = np.asarray(segs, dtype=np.int8)
-        print()
-        print(data_tot.shape)
-        print(data_mfcc.shape)
-        print(data_tot.shape)
-        print(data_audio.shape)
-        print(data_coc.shape)
-        print(labels_tot.shape)
-        print(labels_segs_tot.shape)
-        print(segs.shape)
-        print()
+        # print()
+        # print(data_tot.shape)
+        # print(data_mfcc.shape)
+        # print(data_tot.shape)
+        # print(data_audio.shape)
+        # print(data_coc.shape)
+        # print(labels_tot.shape)
+        # print(labels_segs_tot.shape)
+        # print(segs.shape)
+        # print()
         
         
         # Make sure everything is extracted properly
