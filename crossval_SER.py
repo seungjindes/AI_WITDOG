@@ -12,15 +12,15 @@ str_time = f'{str(localtime.tm_year)}-{str(localtime.tm_mon)}-{str(localtime.tm_
 
 #------------PARAMETERS---------------#
 
-features_file = './features_extraction/features/DOG_EMO_multi.pkl'
+features_file = './features_extraction/features/DOG_EMO_multi_maltese.pkl'
  #leave-one-session-out
-val_id = ['maltese_val']
-test_id = ['maltese_test']
+val_id = ['valid']
+test_id = ['test']
 
-num_epochs  = 1
-batch_size  = 4
+num_epochs  = '1'
+batch_size  = '4'
 #lr          = 0.00001
-ㅣㄱ = 0.001
+lr = '0.001'
 random_seed = 111
 save_label = str_time#'0930_01'#'alexnet_pm_0704'
  
@@ -50,10 +50,13 @@ for repeat in range(repeat_kfold):
                                   '--pretrained'
                                   ]
 
-    
+
         stat = train_ser.main(parse_arguments(sys.argv[1:]))   
         all_stat.append(stat)       
         os.remove(save_label+'.pth')
+        
+        
+    
     
     # with open('allstat_iemocap_'+save_label+'_'+str(repeat)+'.pkl', "wb") as fout:
     #     pickle.dump(all_stat, fout)

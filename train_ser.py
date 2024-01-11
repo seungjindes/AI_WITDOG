@@ -125,7 +125,7 @@ def parse_arguments(argv):
         help='By default, SER_AlexNet or SER_AlexNet_GAP model weights are'
              'initialized randomly. Set this flag to initalize with '
              'ImageNet pre-trained weights.')
-
+    print(argv)
     return parser.parse_args(argv)
 
 
@@ -377,8 +377,8 @@ def train(dataset, params, save_label='default'):
     print("pytorch version: ", torch.__version__)
     print("cuda version: ", torch.version.cuda)
     print("cudnn version: ", torch.backends.cudnn.version())
-    print("gpu name: ", torch.cuda.get_device_name())
-    print("gpu index: ", torch.cuda.current_device())
+    # print("gpu name: ", torch.cuda.get_device_name())
+    # print("gpu index: ", torch.cuda.current_device())
     
     #select device
     if params['use_gpu'] == 1:
