@@ -74,7 +74,8 @@ def main(args):
                                test_speaker_id=args.test_id,
                                oversample=args.oversampling
                                )
-
+    
+    os.makedirs('./result' , exist_ok=True)
     train_stat = train(ser_dataset, params, save_label=args.save_label)
 
     return train_stat
@@ -246,13 +247,13 @@ def test(mode, params, model, criterion_ce, criterion_mml, test_dataset, batch_s
     assert len(test_preds) == test_dataset.n_actual_samples
     test_wa = test_dataset.weighted_accuracy(test_preds)
     test_ua = test_dataset.unweighted_accuracy(test_preds)
-    test_cor = test_dataset.confusion_matrix_iemocap(test_preds)
+    #test_cor = test_dataset.confusion_matrix_iemocap(test_preds)
 
     results = (test_loss, test_wa*100, test_ua*100)
     
     if return_matrix:
-        test_conf = test_dataset.confusion_matrix_iemocap(test_preds)
-        return results, test_conf
+        #test_conf = test_dataset.confusion_matrix_iemocap(test_preds)
+        return results
     else:
         return results
 
@@ -392,7 +393,6 @@ def train(dataset, params, save_label='default'):
     # print(type(Ser_Model())) 11.22
     model = Ser_Model().to(device) 
     
-    print(model.eval())
     print(f"Number of trainable parameters: {count_parameters(model.train())}")
     print('\n')
 
@@ -508,6 +508,7 @@ def train(dataset, params, save_label='default'):
                 best_epoch = epoch
                 if save_path is not None:
                     torch.save(model.state_dict(), save_path)
+ 
         print(best_epoch, epoch)
 
         all_val_loss.append(loss_format.format(val_loss))
@@ -522,15 +523,15 @@ def train(dataset, params, save_label='default'):
             break    
         #break
         
+
     return 
-        
     # Test on best model
     with torch.no_grad():
         model.load_state_dict(torch.load(save_path))
-
+        test_batch_size =1
         test_result, confusion_matrix = test('TEST', params,
             model, criterion_ce, criterion_mml, test_dataset, 
-            batch_size=batch_size, #,
+            batch_size=test_batch_size, #,
             device=device, return_matrix=True)
 
         print("*" * 40)

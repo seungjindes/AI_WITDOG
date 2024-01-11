@@ -147,6 +147,7 @@ class TestDataset(torch.utils.data.Dataset):
         self.data_spec = data['seg_spec']
         self.data_mfcc = data['seg_mfcc']
         self.data_audio = data['seg_audio']
+        self.data_coc = data['seg_coc']
         # self.utter_label = data['utter_label']
         # self.seg_label = data['seg_label']
         # self.seg_num = data['seg_num']
@@ -167,7 +168,8 @@ class TestDataset(torch.utils.data.Dataset):
             'seg_spec': self.data_spec[index], 
             'seg_mfcc': self.data_mfcc[index],
             'seg_audio': self.data_audio[index],
-            'seg_label': self.target[index]#,
+            'seg_label': self.target[index],
+            'seg_coc' : self.data_coc[index]
             #'utter_label': self.actual_target[index],
             #'seg_num': self.num_segs[index]
             } 
@@ -278,8 +280,11 @@ class TestDataset(torch.utils.data.Dataset):
         conf = confusion_matrix(self.actual_target, utt_preds)
         
         # Make confusion matrix into data frame for readability
-        conf_fmt = pd.DataFrame({"ang": conf[:, 0], "sad": conf[:, 1],
-                             "hap": conf[:, 2], "neu": conf[:, 3]})
+        print()
+        print(self.actual_target)
+        print(utt_preds)
+        conf_fmt = pd.DataFrame({"hap": conf[:, 0], "sad": conf[:, 1],
+                             "ang": conf[:, 2], "fea": conf[:, 3]})
         conf_fmt = conf_fmt.to_string(index=False)
         print(conf_fmt)
         return (conf, conf_fmt)

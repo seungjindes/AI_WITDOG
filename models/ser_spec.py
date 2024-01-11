@@ -3,6 +3,11 @@ import torch
 import torchvision
 import torch.nn.functional as F
 
+import warnings
+
+
+warnings.filterwarnings("ignore")
+
 def init_layer(layer):
     """Initialize a Linear or Convolutional layer. """
     nn.init.xavier_uniform_(layer.weight)
@@ -61,7 +66,6 @@ class SER_AlexNet(nn.Module):
     logits (before Softmax)
 
     """
-
 
     def __init__(self,num_classes=4, in_ch=3, pretrained=True):
         super(SER_AlexNet, self).__init__()
