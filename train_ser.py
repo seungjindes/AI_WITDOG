@@ -194,7 +194,6 @@ def test(mode, params, model, criterion_ce, criterion_mml, test_dataset, batch_s
         
     model.eval()
 
-    # for i, test_batch in enumerate(test_loader):
     with tqdm(test_loader) as td:
         for test_batch in td:
                 
@@ -209,11 +208,11 @@ def test(mode, params, model, criterion_ce, criterion_mml, test_dataset, batch_s
             sne_labels += list(labels)
         
             # Forward
-            test_outputs = model(test_data_spec_batch, test_data_mfcc_batch, test_data_audio_batch , test_data_coc_batch)
-            test_preds_segs.append(f.log_softmax(test_outputs['M'], dim=1).cpu())
+            test_output_att = model(test_data_spec_batch, test_data_mfcc_batch, test_data_audio_batch , test_data_coc_batch)
+            test_preds_segs.append(f.log_softmax(test_output_att, dim=1).cpu())
 
             #test loss
-            test_loss_ce = criterion_ce(test_outputs['M'], test_labels_batch)
+            test_loss_ce = criterion_ce(test_output_att, test_labels_batch)
             # test_loss_mml = criterion_mml(test_outputs['M'], test_labels_batch)
             test_loss = test_loss_ce#  + test_loss_mml
            
@@ -367,10 +366,10 @@ def train(dataset, params, save_label='default'):
 
     #get dataset
     train_dataset = dataset.get_train_dataset()
+
     train_loader = torch.utils.data.DataLoader(train_dataset, 
                                 batch_size=params['batch_size'], 
                                 shuffle=True)  
-                                
     val_dataset = dataset.get_val_dataset()
     test_dataset = dataset.get_test_dataset()
 
@@ -452,17 +451,13 @@ def train(dataset, params, save_label='default'):
                 train_labels_batch =  train_batch['seg_label'].to(device,dtype=torch.long)
             
                 # Forward pass
-                outputs = model(train_data_spec_batch, train_data_mfcc_batch, train_data_audio_batch , train_data_coc_batch)
-            
-                #for m in params['ser_task']:
-                #    y_pred[m].append(f.log_softmax(outputs[m], dim=1).cpu().detach().numpy())
-                #    y_true.append
-                
-                train_preds.append(f.log_softmax(outputs['M'], dim=1).cpu().detach().numpy())
+                output_att = model(train_data_spec_batch, train_data_mfcc_batch, train_data_audio_batch , train_data_coc_batch)
+        
+    
+                train_preds.append(f.log_softmax(output_att, dim=1).cpu().detach().numpy())
                 
                 # Compute the loss, gradients, and update the parameters
-                train_loss_ce = criterion_ce(outputs['M'], train_labels_batch)
-                # train_loss_mml = criterion_mml(outputs['M'], train_labels_batch)
+                train_loss_ce = criterion_ce(output_att, train_labels_batch)
                 train_loss = train_loss_ce# + train_loss_mml
 
                 train_loss.backward()
@@ -499,8 +494,6 @@ def train(dataset, params, save_label='default'):
             # Update best model based on validation UA
             # if val_loss < (best_val_loss - 1e-6):
             if val_wa + val_ua > best_val_acc:
-                
-                print("True")
                 best_val_ua = val_ua
                 best_val_wa = val_wa
                 best_val_loss = val_loss

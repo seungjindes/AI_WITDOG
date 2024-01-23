@@ -21,13 +21,14 @@ num_epochs  = '1'
 batch_size  = '4'
 #lr          = 0.00001
 lr = '0.001'
-random_seed = 111
+random_seed = 12500
+#Loss: 1.0824 - 2.1091 - WA: 5.56% <5.56%> - UA: 16.67% <16.67%>
 save_label = str_time#'0930_01'#'alexnet_pm_0704'
 
 
 #Start Cross Validation
 all_stat = []
-
+# 2.0869 - 1.2119
 for repeat in range(repeat_kfold):
 
     random_seed +=  (repeat*100)
@@ -53,7 +54,7 @@ for repeat in range(repeat_kfold):
 
         stat = train_ser.main(parse_arguments(sys.argv[1:]))   
         all_stat.append(stat)       
-        os.remove('./result/'+save_label+'.pth')
+        #os.remove('./result/'+save_label+'.pth')
         
         
     

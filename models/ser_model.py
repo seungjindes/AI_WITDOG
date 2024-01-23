@@ -133,14 +133,13 @@ class Ser_Model(nn.Module):
         output_att = self.post_att_layer_3(audio_att_2) # [batch, 4] 
         
   
-        output = {
-            'F1': audio_wav_p,
-            'F2': audio_att_1,
-            'F3': audio_att_2,
-            'F4': output_att,
-            'M': output_att
-        }            
-        
+        # output = {
+        #     'F1': audio_wav_p,
+        #     'F2': audio_att_1,
+        #     'F3': audio_att_2,
+        #     'F4': output_att,
+        #     'M': output_att
+        # }       
 
-        return output
+        return output_att
     
