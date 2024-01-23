@@ -20,8 +20,8 @@ def extract_features(speaker_files, features, params , coc_params):
     # data_mfcc = list()
 
     #print('speaker_id ' , speaker_id)
-    data_tot, segs, data_mfcc, data_audio,data_coc = list(), list(), list(), list(), list()
     for wav_path, emotion in speaker_files:
+        data_tot, segs, data_mfcc, data_audio,data_coc = list(), list(), list(), list(), list()
         x, sr = librosa.load(wav_path, sr=16000)  
         duration = 3
         segments = extract_segment(x , duration , sr = sr)
@@ -228,9 +228,9 @@ def segment_nd_features(input_values, mfcc, data, emotion):
     data_tot = []
     sf = 0
     # 모델에 사용하기전 전처리 과정 
-    try:
-        processor = Wav2Vec2Processor.from_pretrained("facebook/wav2vec2-base-960h")
-    except: raise("인터넷에 연결되어있지 않습니다. 인터넷 환경을 확인해주세요.")
+
+    processor = Wav2Vec2Processor.from_pretrained("facebook/wav2vec2-base-960h")
+  
     
     for i in range(num_segs):
         # The last segment

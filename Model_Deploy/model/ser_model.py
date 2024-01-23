@@ -6,9 +6,10 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from transformers import  Wav2Vec2Model
-from Model.ser_spec import SER_AlexNet
+#print(__file__)
 
+from transformers import  Wav2Vec2Model
+from model.ser_spec import SER_AlexNet
 
 class moel_coc(nn.Module):
     def __init__(self):
@@ -119,7 +120,7 @@ class Ser_Model(nn.Module):
         audio_wav = self.wav2vec2_model(audio_wav).last_hidden_state # [batch, 149, 768] 
         audio_wav = torch.matmul(multi_p, audio_wav) # [batch, 1, 768] 
         audio_wav = audio_wav.reshape(audio_wav.shape[0], -1) # [batch, 768] 
-        #audio_wav = torch.mean(audio_wav, dim=1)
+  
         
         audio_wav_d = self.post_wav_dropout(audio_wav) # [batch, 768] 
         audio_wav_p = F.relu(self.post_wav_layer(audio_wav_d), inplace=False) # [batch, 768] 
@@ -132,15 +133,6 @@ class Ser_Model(nn.Module):
         audio_att_2 = F.relu(self.post_att_layer_2(audio_att_d_2), inplace=False)  # [batch, 128] 
         output_att = self.post_att_layer_3(audio_att_2) # [batch, 4] 
         
-  
-        output = {
-            'F1': audio_wav_p,
-            'F2': audio_att_1,
-            'F3': audio_att_2,
-            'F4': output_att,
-            'M': output_att
-        }            
-        
 
-        return output
+        return output_att
     

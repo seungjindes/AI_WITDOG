@@ -72,12 +72,13 @@ class SER_AlexNet(nn.Module):
 
         model = torchvision.models.alexnet(pretrained=pretrained)
         self.features = model.features
-        self.avgpool  = model.avgpool
+ 
+    
         self.classifier = model.classifier
-
-        if in_ch != 3:
-            self.features[0] = nn.Conv2d(in_ch, 64, kernel_size=(11, 11), stride=(4, 4), padding=(2, 2))
-            init_layer(self.features[0])
+     
+        # if in_ch != 3:
+        #     self.features[0] = nn.Conv2d(in_ch, 64, kernel_size=(11, 11), stride=(4, 4), padding=(2, 2))
+        #     init_layer(self.features[0])
 
         self.classifier[6] = nn.Linear(4096, num_classes)
 
@@ -88,7 +89,7 @@ class SER_AlexNet(nn.Module):
     def forward(self, x):
 
         x = self.features(x)
-        x = self.avgpool(x)
+        x = F.avg_pool2d(x, kernel_size=(2,3) , padding = (0,1) , stride = (1,3))
         x_ = torch.flatten(x, 1)
         out = self.classifier(x_)
 

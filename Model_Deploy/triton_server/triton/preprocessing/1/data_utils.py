@@ -50,14 +50,17 @@ class TestDataset(torch.utils.data.Dataset):
         self.data_mfcc = data['seg_mfcc']
         self.data_audio = data['seg_audio']
         self.data_coc = data['seg_coc']
-
-        self.target = data['seg_label']
-        self.n_samples = len(self.target)
-        self.actual_target = data['utter_label']
-        self.n_actual_samples = len(self.actual_target)
-        self.num_segs = data['seg_num']
+        # self.utter_label = data['utter_label']
+        # self.seg_label = data['seg_label']
+        self.num_segs = data['seg_num'] 
+        
+        # self.target = data['seg_label']
+        # self.n_samples = len(self.target)
+        # self.actual_target = data['utter_label']
+        # self.n_actual_samples = len(self.actual_target)
+        #self.num_segs = data['seg_num']
         self.num_classes = num_classes
-
+        self.n_samples = len(self.num_segs)
 
     def __len__(self):
         return self.n_samples
@@ -67,13 +70,11 @@ class TestDataset(torch.utils.data.Dataset):
             'seg_spec': self.data_spec[index], 
             'seg_mfcc': self.data_mfcc[index],
             'seg_audio': self.data_audio[index],
-            'seg_label': self.target[index],
-            'seg_coc' : self.data_coc[index]
-            #'utter_label': self.actual_target[index],
-            #'seg_num': self.num_segs[index]
+            'seg_coc' : self.data_coc[index],
+            'seg_num' : self.num_segs[index]
             } 
         return sample
-        # return self.data[index], self.target[index]
+
 
     def get_preds(self, seg_preds):
         """
@@ -203,8 +204,7 @@ class SERDataset:
         self._normalize('minmax')
         #convert normalized spectrogram to 3 channel image, apply AlexNet image pre-processing
         self.test_spec_data = self._spec_to_gray(self.test_spec_data)
-        self.num_in_ch = 1
-
+        self.num_in_ch = 1  
         #self.test_data = self.test_spec_data, self.test_mfcc_data
         self.test_data = defaultdict()
         self.test_data["seg_spec"] = self.test_spec_data
@@ -212,8 +212,10 @@ class SERDataset:
         self.test_data["seg_audio"] = self.test_audio_data
         self.test_data["seg_coc"] = self.test_coc_data
         self.test_data["seg_num"] = self.test_num_segs
+
+        self.num_classes = num_classes
  
-    # _ python에서 underbar method 는 import 불가 
+    # _ python에서 underbar method 는 import 불가  
     def _normalize(self, scaling):
         
         '''
