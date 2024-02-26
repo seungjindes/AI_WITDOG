@@ -58,10 +58,7 @@ if prompt := st.chat_input():
         else : time.sleep(2)
 
     thread_messages = client.beta.threads.messages.list(thread_id)
-    #print(thread_messages.data)
-
     msg = thread_messages.data[0].content[0].text.value
-    #print(msg)
 
-    st.session_state.messages.append({"role" : "assistant" , "conetent" : msg})
+    st.session_state.messages.append({"role" : "assistant" , "content" : msg})
     st.chat_message("assistant").write(msg)
