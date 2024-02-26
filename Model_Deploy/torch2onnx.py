@@ -4,7 +4,7 @@ import numpy as np
 import torch 
 import  torch.nn.functional as f
 
-from triton.preprocessing.1.features_extraction.features_util import extract_features
+from triton.preprocessing.1.features_extraction.features_util import AI_WITDOG.Model_Train.extract_features as extract_features
 from features_extraction.database import DOG_EMO_DATABASES
 from data_utils import SERDataset
 from model.ser_model import Ser_Model
