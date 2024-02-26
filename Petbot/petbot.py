@@ -2,7 +2,8 @@ from openai import OpenAI
 import streamlit as st
 import time
 
-client = OpenAI(api_key='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')
+
+
 
 thread_id = "thread_nUlCEvOH1h5PB7x4xorily59"
 assistant_id = "asst_r5LJYwmTq7XLjUoWPI0Hshda"
@@ -10,8 +11,7 @@ assistant_id = "asst_r5LJYwmTq7XLjUoWPI0Hshda"
 st.subheader(f"{thread_id}",divider="rainbow")
     
 with st.sidebar:
-    openai_api_key = st.text_input("OpenAI API Key", key="chatbot_api_key", type="password",
-    value = "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")
+    openai_api_key = st.text_input("OpenAI API Key", key="chatbot_api_key", type="password")
     "[Get an OpenAI API key](https://platform.openai.com/account/api-keys)"
 
 st.title("💬 Petbot")
@@ -27,6 +27,7 @@ if prompt := st.chat_input():
     if not openai_api_key:
         st.info("Please add your OpenAI API key to continue.")
         st.stop()
+    client = OpenAI(api_key=openai_api_key)
 
     st.session_state.messages.append({"role": "user", "content": prompt})
     st.chat_message("user").write(prompt)
