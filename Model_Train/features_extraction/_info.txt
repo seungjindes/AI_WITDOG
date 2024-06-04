@@ -1,4 +1,0 @@
-speakerID   shape (N,C,F,T)  hap  sad  ang  fea
-     test  (9, 1, 128, 300)    0    0    9    0
-    train (74, 1, 128, 300)    8    0   47   19
-    valid (18, 1, 128, 300)    9    0    7    2

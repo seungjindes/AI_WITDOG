@@ -1,0 +1,2 @@
+speakerID  Hap  Sad  Ang  Howling
+    valid    6    2   22        3

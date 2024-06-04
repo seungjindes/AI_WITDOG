@@ -1,0 +1,42 @@
+name : "AIdog"
+platform: "onnxruntime_onnx" 
+
+input [
+    {
+        name : "INPUT_SPEC"
+        data_type : TYPE_FP32
+        dims : [1 , 3, 256 , 600]
+    },
+    {
+        name : "INPUT_MFCC"
+        data_type : TYPE_FP32
+        dims : [1 , 300 , 40]
+    },
+
+    {
+        name : "INPUT_AUDIO"
+        data_type : TYPE_FP32
+        dims : [1 , 48000]
+    },
+    {
+        name : "INPUT_COC"
+        data_type : TYPE_FP32
+        dims : [1 , 128 , 48000]
+    },
+    {
+        name : "INPUT_CONVEN"
+        data_type : TYPE_FP32
+        dims : [1, 68, 9]
+    }
+
+]
+
+
+output [
+    {
+        name: "result"
+        data_type : TYPE_FP32
+        dims : [1 , 13]        
+    }
+
+]
